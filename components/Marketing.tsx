@@ -66,8 +66,8 @@ const Marketing: React.FC<MarketingProps> = ({ clients, appointments }) => {
   };
 
   return (
-    <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+    <div className="bg-white dark:bg-gray-800 p-4 md:p-8 rounded-2xl shadow-lg">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-6 flex items-center">
         <SparklesIcon className="w-7 h-7 mr-3 text-yellow-500" />
         Marketing y Fidelización con IA
       </h2>
@@ -76,12 +76,12 @@ const Marketing: React.FC<MarketingProps> = ({ clients, appointments }) => {
         {/* Controls */}
         <div className="space-y-6">
           <div>
-            <label htmlFor="client-select" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="client-select" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Seleccionar Cliente
             </label>
             <select
               id="client-select"
-              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               onChange={(e) => setSelectedClientId(parseInt(e.target.value))}
               value={selectedClientId || ''}
               disabled={clients.length === 0}
@@ -94,23 +94,23 @@ const Marketing: React.FC<MarketingProps> = ({ clients, appointments }) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de Mensaje</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tipo de Mensaje</label>
             <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
               <button
                 onClick={() => setMessageType('reminder')}
-                className={`flex-1 py-2 px-4 rounded-lg transition-colors text-sm ${messageType === 'reminder' ? 'bg-pink-500 text-white shadow' : 'bg-gray-200 text-gray-700'}`}
+                className={`flex-1 py-2 px-4 rounded-lg transition-colors text-sm ${messageType === 'reminder' ? 'bg-pink-500 text-white shadow' : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300'}`}
               >
                 Recordatorio
               </button>
               <button
                 onClick={() => setMessageType('promotion')}
-                className={`flex-1 py-2 px-4 rounded-lg transition-colors text-sm ${messageType === 'promotion' ? 'bg-purple-500 text-white shadow' : 'bg-gray-200 text-gray-700'}`}
+                className={`flex-1 py-2 px-4 rounded-lg transition-colors text-sm ${messageType === 'promotion' ? 'bg-purple-500 text-white shadow' : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300'}`}
               >
                 Promoción
               </button>
               <button
                 onClick={() => setMessageType('birthday')}
-                className={`flex-1 py-2 px-4 rounded-lg transition-colors text-sm ${messageType === 'birthday' ? 'bg-yellow-500 text-white shadow' : 'bg-gray-200 text-gray-700'}`}
+                className={`flex-1 py-2 px-4 rounded-lg transition-colors text-sm ${messageType === 'birthday' ? 'bg-yellow-500 text-white shadow' : 'bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-300'}`}
               >
                 Cumpleaños
               </button>
@@ -119,13 +119,13 @@ const Marketing: React.FC<MarketingProps> = ({ clients, appointments }) => {
           
           {messageType === 'promotion' && (
             <div>
-              <label htmlFor="promotion-text" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="promotion-text" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Texto de la Promoción
               </label>
               <textarea
                 id="promotion-text"
                 rows={3}
-                className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value={promotionText}
                 onChange={(e) => setPromotionText(e.target.value)}
               />
@@ -149,13 +149,13 @@ const Marketing: React.FC<MarketingProps> = ({ clients, appointments }) => {
         </div>
 
         {/* Output */}
-        <div className="bg-pink-50 p-6 rounded-lg flex flex-col">
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">Vista Previa del Mensaje de WhatsApp</h3>
-          <div className="flex-grow bg-white rounded-xl shadow-inner p-4 space-y-2">
+        <div className="bg-pink-50 dark:bg-gray-700 p-6 rounded-lg flex flex-col">
+          <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">Vista Previa del Mensaje de WhatsApp</h3>
+          <div className="flex-grow bg-white dark:bg-gray-800 rounded-xl shadow-inner p-4 space-y-2">
             {generatedMessage ? (
-              <p className="text-gray-800 whitespace-pre-wrap">{generatedMessage}</p>
+              <p className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{generatedMessage}</p>
             ) : (
-              <p className="text-gray-400 text-center my-auto">
+              <p className="text-gray-400 dark:text-gray-500 text-center my-auto">
                 El mensaje generado por la IA aparecerá aquí...
               </p>
             )}

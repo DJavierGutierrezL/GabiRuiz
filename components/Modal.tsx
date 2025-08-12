@@ -37,13 +37,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
       aria-labelledby="modal-title"
     >
       <div 
-        className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 m-2 sm:m-4 relative"
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg p-6 md:p-8 m-2 sm:m-4 relative"
         onClick={(e) => e.stopPropagation()}
         style={{ animation: 'fade-in-up 0.3s ease-out' }}
       >
         <div className="flex justify-between items-center mb-4 sm:mb-6">
-          <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-800">{title}</h2>
-          <button onClick={onClose} aria-label="Cerrar modal" className="text-gray-400 hover:text-gray-600 p-1 rounded-full transition-colors">
+          <h2 id="modal-title" className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">{title}</h2>
+          <button onClick={onClose} aria-label="Cerrar modal" className="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 p-1 rounded-full transition-colors">
             <XIcon className="w-6 h-6" />
           </button>
         </div>

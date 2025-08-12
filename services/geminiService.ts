@@ -22,7 +22,7 @@ const generateReminderPrompt = (client: Client, appointment: Appointment): strin
   Detalles de la cita:
   - Fecha: ${appointment.date}
   - Hora: ${appointment.time}
-  - Servicio: ${appointment.service}
+  - Servicio: ${appointment.services.join(', ')}
   
   Instrucciones:
   - Saluda al cliente por su nombre.

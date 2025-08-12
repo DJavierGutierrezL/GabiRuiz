@@ -48,11 +48,11 @@ const getDayOfThisWeek = (dayOfWeek: number, hour: number, minute: number = 0): 
 
 
 export const mockAppointments: Appointment[] = [
-  { id: 1, clientName: 'Elena Rodriguez', service: 'Semi-permanente', ...getDayOfThisWeek(1, 10), status: AppointmentStatus.Confirmed }, // Monday at 10:00
-  { id: 2, clientName: 'Sofia Garcia', service: 'Acrílicas', ...getDayOfThisWeek(1, 14), status: AppointmentStatus.Pending }, // Monday at 14:00
-  { id: 3, clientName: 'Invitado', service: 'Tradicional', ...getDayOfThisWeek(2, 11), status: AppointmentStatus.Completed }, // Tuesday at 11:00
-  { id: 4, clientName: 'Valentina Martinez', service: 'Retoque', ...getDayOfThisWeek(4, 16), status: AppointmentStatus.Cancelled }, // Thursday at 16:00
-  { id: 5, clientName: 'Isabella Lopez', service: 'Semi-permanente', ...getDayOfThisWeek(4, 10), status: AppointmentStatus.Pending }, // Thursday at 10:00
+  { id: 1, clientName: 'Elena Rodriguez', services: ['Manos Semipermanente'], ...getDayOfThisWeek(1, 10), status: AppointmentStatus.Confirmed }, // Monday at 10:00
+  { id: 2, clientName: 'Sofia Garcia', services: ['Acrílicas', 'Blindaje'], ...getDayOfThisWeek(1, 14), status: AppointmentStatus.Pending }, // Monday at 14:00
+  { id: 3, clientName: 'Invitado', services: ['Manos Tradicional', 'Pies Tradicional'], ...getDayOfThisWeek(2, 11), status: AppointmentStatus.Completed }, // Tuesday at 11:00
+  { id: 4, clientName: 'Valentina Martinez', services: ['Retoque'], ...getDayOfThisWeek(4, 16), status: AppointmentStatus.Cancelled }, // Thursday at 16:00
+  { id: 5, clientName: 'Isabella Lopez', services: ['Pies Semipermanente'], ...getDayOfThisWeek(4, 10), status: AppointmentStatus.Pending }, // Thursday at 10:00
 ];
 
 export const mockProducts: Product[] = [

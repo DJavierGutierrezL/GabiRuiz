@@ -19,7 +19,7 @@ export interface Client {
 export interface Appointment {
   id: number;
   clientName: string;
-  service: string;
+  services: string[];
   date: string; 
   time: string;
   status: AppointmentStatus;
@@ -46,4 +46,9 @@ export enum Page {
   Inventory = 'Inventory',
   Marketing = 'Marketing',
   Settings = 'Settings',
+}
+
+export interface KandyAIMessage {
+  sender: 'user' | 'kandy';
+  text: string;
 }

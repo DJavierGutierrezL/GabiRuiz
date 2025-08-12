@@ -11,16 +11,17 @@ interface DashboardProps {
   appointments: Appointment[];
   clients: Client[];
   prices: Prices;
+  theme: 'light' | 'dark';
 }
 
 const StatCard: React.FC<{ title: string; value: string; icon: React.ReactNode; color: string }> = ({ title, value, icon, color }) => (
-  <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md flex items-center transition-transform hover:scale-105">
+  <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-md flex items-center transition-transform hover:scale-105">
     <div className={`p-3 sm:p-4 rounded-full mr-4 ${color}`}>
       {icon}
     </div>
     <div>
-      <p className="text-sm text-gray-500">{title}</p>
-      <p className="text-xl sm:text-2xl font-bold text-gray-800">{value}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400">{title}</p>
+      <p className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-200">{value}</p>
     </div>
   </div>
 );
@@ -29,7 +30,7 @@ const FilterButton: React.FC<{ label: string, isActive: boolean, onClick: () => 
     <button
         onClick={onClick}
         className={`px-3 py-1 text-sm font-medium rounded-md transition-colors ${
-            isActive ? 'bg-pink-500 text-white shadow' : 'bg-transparent text-gray-500 hover:bg-pink-100'
+            isActive ? 'bg-pink-500 text-white shadow' : 'bg-transparent text-gray-500 hover:bg-pink-100 dark:text-gray-400 dark:hover:bg-gray-700'
         }`}
     >
         {label}
@@ -37,7 +38,7 @@ const FilterButton: React.FC<{ label: string, isActive: boolean, onClick: () => 
 );
 
 
-const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices }) => {
+const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices, theme }) => {
     const [revenueFilter, setRevenueFilter] = useState<'week' | 'month' | 'day'>('week');
 
     const completedAppointments = appointments.filter(a => a.status === AppointmentStatus.Completed);
@@ -61,15 +62,20 @@ const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices }) 
             }
         });
 
+        const calculateRevenue = (apps: Appointment[]) => {
+            return apps.reduce((sum, app) => {
+                const appointmentTotal = app.services.reduce((serviceSum, service) => serviceSum + (prices[service] || 0), 0);
+                return sum + appointmentTotal;
+            }, 0);
+        }
+
         if (revenueFilter === 'week') {
             const weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
             const weekData = weekDays.map((day, index) => {
                 const dayDate = new Date(startOfWeek);
                 dayDate.setDate(startOfWeek.getDate() + index);
-                const revenue = filtered
-                    .filter(app => new Date(`${app.date}T00:00:00`).toDateString() === dayDate.toDateString())
-                    .reduce((sum, app) => sum + (prices[app.service] || 0), 0);
-                return { name: day, Ingresos: revenue };
+                const dailyAppointments = filtered.filter(app => new Date(`${app.date}T00:00:00`).toDateString() === dayDate.toDateString());
+                return { name: day, Ingresos: calculateRevenue(dailyAppointments) };
             });
             return weekData;
         }
@@ -78,16 +84,14 @@ const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices }) 
             const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
             const monthData = Array.from({ length: daysInMonth }, (_, i) => {
                 const day = i + 1;
-                const revenue = filtered
-                    .filter(app => new Date(`${app.date}T00:00:00`).getDate() === day)
-                    .reduce((sum, app) => sum + (prices[app.service] || 0), 0);
-                return { name: day.toString(), Ingresos: revenue };
+                const dailyAppointments = filtered.filter(app => new Date(`${app.date}T00:00:00`).getDate() === day);
+                return { name: day.toString(), Ingresos: calculateRevenue(dailyAppointments) };
             });
             return monthData;
         }
         
         if (revenueFilter === 'day') {
-            const total = filtered.reduce((sum, app) => sum + (prices[app.service] || 0), 0);
+            const total = calculateRevenue(filtered);
             return [{ name: "Hoy", Ingresos: total }];
         }
         
@@ -159,9 +163,9 @@ const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices }) 
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        <div className="lg:col-span-3 bg-white p-4 sm:p-6 rounded-2xl shadow-md">
+        <div className="lg:col-span-3 bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-md">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                <h3 className="text-xl font-semibold text-gray-700 mb-2 sm:mb-0">Análisis de Ingresos</h3>
+                <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2 sm:mb-0">Análisis de Ingresos</h3>
                 <div className="flex space-x-1">
                     <FilterButton label="Día" isActive={revenueFilter === 'day'} onClick={() => setRevenueFilter('day')} />
                     <FilterButton label="Semana" isActive={revenueFilter === 'week'} onClick={() => setRevenueFilter('week')} />
@@ -170,16 +174,16 @@ const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices }) 
             </div>
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={revenueData}>
-                    <XAxis dataKey="name" stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} />
-                    <YAxis stroke="#9ca3af" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
-                    <Tooltip contentStyle={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px' }}/>
+                    <XAxis dataKey="name" stroke={theme === 'dark' ? '#6b7280' : '#9ca3af'} fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis stroke={theme === 'dark' ? '#6b7280' : '#9ca3af'} fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `$${value}`} />
+                    <Tooltip contentStyle={{ backgroundColor: theme === 'dark' ? '#1f2937' : '#fff', border: theme === 'dark' ? '1px solid #4b5563' : '1px solid #ddd', borderRadius: '8px' }}/>
                     <Legend />
                     <Line type="monotone" dataKey="Ingresos" stroke="#f472b6" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 6 }} />
                 </LineChart>
             </ResponsiveContainer>
         </div>
-        <div className="lg:col-span-2 bg-white p-4 sm:p-6 rounded-2xl shadow-md">
-            <h3 className="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+        <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-md">
+            <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center">
                 <PieChartIcon className="w-6 h-6 mr-2 text-purple-600" />
                 Distribución de Citas
             </h3>
@@ -188,31 +192,31 @@ const Dashboard: React.FC<DashboardProps> = ({ appointments, clients, prices }) 
                     <Pie data={statusPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label>
                         {statusPieData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.fill} />)}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip contentStyle={{ backgroundColor: theme === 'dark' ? '#1f2937' : '#fff', border: theme === 'dark' ? '1px solid #4b5563' : '1px solid #ddd', borderRadius: '8px' }}/>
                     <Legend />
                 </PieChart>
             </ResponsiveContainer>
         </div>
       </div>
       
-      <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-md">
-        <h3 className="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+      <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-md">
+        <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center">
             <GiftIcon className="w-6 h-6 mr-2 text-pink-500" />
             Cumpleaños de la Semana
         </h3>
         {birthdaysThisWeek.length > 0 ? (
             <ul className="space-y-3">
                 {birthdaysThisWeek.map(client => (
-                    <li key={client.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 bg-pink-50 rounded-lg">
-                        <span className="font-medium text-gray-800 mb-1 sm:mb-0">{client.name}</span>
-                        <span className="text-sm text-pink-700 font-semibold">
+                    <li key={client.id} className="flex flex-col sm:flex-row justify-between items-start sm:items-center p-3 bg-pink-50 dark:bg-gray-700 rounded-lg">
+                        <span className="font-medium text-gray-800 dark:text-gray-200 mb-1 sm:mb-0">{client.name}</span>
+                        <span className="text-sm text-pink-700 dark:text-pink-400 font-semibold">
                             {new Date(`${client.birthDate}T00:00:00`).toLocaleDateString('es-ES', { weekday: 'long', month: 'long', day: 'numeric' })}
                         </span>
                     </li>
                 ))}
             </ul>
         ) : (
-            <p className="text-center text-gray-500 py-4">No hay cumpleaños esta semana.</p>
+            <p className="text-center text-gray-500 dark:text-gray-400 py-4">No hay cumpleaños esta semana.</p>
         )}
       </div>
     </div>

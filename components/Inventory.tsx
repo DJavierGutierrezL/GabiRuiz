@@ -90,34 +90,34 @@ const Inventory: React.FC<InventoryProps> = ({ products, setProducts }) => {
 
   return (
     <>
-    <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg">
+    <div className="bg-white dark:bg-gray-800 p-4 md:p-8 rounded-2xl shadow-lg">
       <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Gestión de Inventario</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 md:mb-0">Gestión de Inventario</h2>
         <button onClick={handleOpenAddModal} className="w-full md:w-auto bg-pink-500 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-pink-600 transition-colors flex items-center justify-center">
           <BoxIcon className="w-5 h-5 mr-2" /> Añadir Producto
         </button>
       </div>
 
       <div className="overflow-x-auto responsive-table">
-        <table className="min-w-full bg-white">
-          <thead className="bg-pink-100">
+        <table className="min-w-full bg-white dark:bg-gray-800">
+          <thead className="bg-pink-100 dark:bg-gray-700">
             <tr>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Nombre del Producto</th>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Stock</th>
-              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800">Cantidad Actual</th>
-              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800">Alerta de Mínimo</th>
-              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800">Estado</th>
-              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800">Acciones</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Nombre del Producto</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Stock</th>
+              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800 dark:text-pink-400">Cantidad Actual</th>
+              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800 dark:text-pink-400">Alerta de Mínimo</th>
+              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800 dark:text-pink-400">Estado</th>
+              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800 dark:text-pink-400">Acciones</th>
             </tr>
           </thead>
-          <tbody className="text-gray-700">
+          <tbody className="text-gray-700 dark:text-gray-300">
             {products.sort((a, b) => a.name.localeCompare(b.name)).map((product) => {
               const isLowStock = product.currentStock <= product.minStock;
               return (
-                <tr key={product.id} className={`border-b border-gray-200 ${isLowStock ? 'bg-red-50 hover:bg-red-100' : 'hover:bg-pink-50'}`}>
+                <tr key={product.id} className={`border-b border-gray-200 dark:border-gray-700 ${isLowStock ? 'bg-red-50 hover:bg-red-100 dark:bg-red-900/30 dark:hover:bg-red-800/40' : 'hover:bg-pink-50 dark:hover:bg-gray-700'}`}>
                   <td data-label="Producto" className="py-4 px-6 font-medium">{product.name}</td>
                   <td data-label="Stock" className="py-4 px-6">
-                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                    <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2.5">
                       <div
                         className={`h-2.5 rounded-full ${getStockColor(product.currentStock, product.minStock)}`}
                         style={{ width: `${Math.min((product.currentStock / (product.minStock > 0 ? product.minStock * 2 : 1)) * 100, 100)}%` }}
@@ -128,12 +128,12 @@ const Inventory: React.FC<InventoryProps> = ({ products, setProducts }) => {
                   <td data-label="Mínimo" className="py-4 px-6 text-right md:text-center font-mono">{product.minStock}</td>
                   <td data-label="Estado" className="py-4 px-6 text-right md:text-center">
                     {isLowStock ? (
-                       <span className="flex items-center justify-end md:justify-center text-red-600 font-semibold">
+                       <span className="flex items-center justify-end md:justify-center text-red-600 font-semibold dark:text-red-400">
                          <AlertTriangleIcon className="w-5 h-5 mr-2" />
                          Bajo Stock
                        </span>
                     ) : (
-                      <span className="text-green-600 font-semibold">OK</span>
+                      <span className="text-green-600 font-semibold dark:text-green-400">OK</span>
                     )}
                   </td>
                   <td data-label="Acciones" className="py-4 px-6 text-right md:text-center">
@@ -154,21 +154,21 @@ const Inventory: React.FC<InventoryProps> = ({ products, setProducts }) => {
       >
         <form onSubmit={handleSaveProduct} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nombre del Producto</label>
-            <input type="text" name="name" id="name" value={currentProduct?.name || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required />
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre del Producto</label>
+            <input type="text" name="name" id="name" value={currentProduct?.name || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
           </div>
           <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="currentStock" className="block text-sm font-medium text-gray-700 mb-1">Cantidad Actual</label>
-                <input type="number" name="currentStock" id="currentStock" value={currentProduct?.currentStock ?? ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required min="0" />
+                <label htmlFor="currentStock" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cantidad Actual</label>
+                <input type="number" name="currentStock" id="currentStock" value={currentProduct?.currentStock ?? ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required min="0" />
               </div>
               <div>
-                <label htmlFor="minStock" className="block text-sm font-medium text-gray-700 mb-1">Alerta de Mínimo</label>
-                <input type="number" name="minStock" id="minStock" value={currentProduct?.minStock ?? ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required min="0" />
+                <label htmlFor="minStock" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Alerta de Mínimo</label>
+                <input type="number" name="minStock" id="minStock" value={currentProduct?.minStock ?? ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required min="0" />
               </div>
           </div>
           <div className="mt-6 flex justify-end space-x-4">
-            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button>
+            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500">Cancelar</button>
             <button type="submit" className="px-4 py-2 bg-pink-500 text-white font-bold rounded-lg shadow hover:bg-pink-600">Guardar Producto</button>
           </div>
         </form>
@@ -183,13 +183,13 @@ const Inventory: React.FC<InventoryProps> = ({ products, setProducts }) => {
             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                 <AlertTriangleIcon className="h-6 w-6 text-red-600" />
             </div>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-600 dark:text-gray-300">
                 ¿Estás seguro de que quieres eliminar <strong>{productToDelete?.name}</strong>?
             </p>
-            <p className="text-sm text-gray-500">Esta acción no se puede deshacer.</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Esta acción no se puede deshacer.</p>
         </div>
         <div className="mt-6 flex justify-center space-x-4">
-            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500">
                 Cancelar
             </button>
             <button type="button" onClick={handleDeleteConfirm} className="px-4 py-2 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700">

@@ -87,16 +87,16 @@ const Clients: React.FC<ClientsProps> = ({ clients, setClients }) => {
 
   return (
     <>
-    <div className="bg-white p-4 md:p-8 rounded-2xl shadow-lg">
+    <div className="bg-white dark:bg-gray-800 p-4 md:p-8 rounded-2xl shadow-lg">
       <div className="flex flex-col md:flex-row justify-between md:items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Gestión de Clientes (CRM)</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-4 md:mb-0">Gestión de Clientes (CRM)</h2>
         <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
             <input
                 type="text"
                 placeholder="Buscar cliente..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full md:w-auto px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                className="w-full md:w-auto px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
             />
             <button onClick={handleOpenAddModal} className="w-full md:w-auto bg-pink-500 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-pink-600 transition-colors">
                 Añadir Cliente
@@ -105,29 +105,29 @@ const Clients: React.FC<ClientsProps> = ({ clients, setClients }) => {
       </div>
 
       <div className="overflow-x-auto responsive-table">
-        <table className="min-w-full bg-white">
-          <thead className="bg-pink-100">
+        <table className="min-w-full bg-white dark:bg-gray-800">
+          <thead className="bg-pink-100 dark:bg-gray-700">
             <tr>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Nombre</th>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Contacto</th>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Fecha Nac.</th>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Último Servicio</th>
-              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800">Preferencias</th>
-              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800">Acciones</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Nombre</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Contacto</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Fecha Nac.</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Último Servicio</th>
+              <th className="py-3 px-6 text-left text-sm font-semibold text-pink-800 dark:text-pink-400">Preferencias</th>
+              <th className="py-3 px-6 text-center text-sm font-semibold text-pink-800 dark:text-pink-400">Acciones</th>
             </tr>
           </thead>
-          <tbody className="text-gray-700">
+          <tbody className="text-gray-700 dark:text-gray-300">
             {filteredClients.map((client) => (
-              <tr key={client.id} className="border-b border-gray-200 hover:bg-pink-50">
+              <tr key={client.id} className="border-b border-gray-200 dark:border-gray-700 hover:bg-pink-50 dark:hover:bg-gray-700">
                 <td data-label="Nombre" className="py-4 px-6">
                     <div className="flex items-center justify-end md:justify-start">
-                        {client.isNew && <span className="text-xs bg-green-200 text-green-800 font-semibold mr-2 px-2.5 py-0.5 rounded-full">Nuevo</span>}
+                        {client.isNew && <span className="text-xs bg-green-200 text-green-800 font-semibold mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900/50 dark:text-green-300">Nuevo</span>}
                         {client.name}
                     </div>
                 </td>
                 <td data-label="Contacto" className="py-4 px-6">
                     <div>{client.phone}</div>
-                    <div className="text-sm text-gray-500">{client.email}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-400">{client.email}</div>
                 </td>
                 <td data-label="Fecha Nac." className="py-4 px-6">{client.birthDate ? new Date(`${client.birthDate}T00:00:00`).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'N/A'}</td>
                 <td data-label="Último Servicio" className="py-4 px-6">{client.serviceHistory[client.serviceHistory.length - 1] || 'N/A'}</td>
@@ -150,27 +150,27 @@ const Clients: React.FC<ClientsProps> = ({ clients, setClients }) => {
       >
         <form onSubmit={handleSaveClient} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
-            <input type="text" name="name" id="name" value={currentClient?.name || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required />
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre Completo</label>
+            <input type="text" name="name" id="name" value={currentClient?.name || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
           </div>
            <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input type="email" name="email" id="email" value={currentClient?.email || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required />
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+            <input type="email" name="email" id="email" value={currentClient?.email || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <input type="tel" name="phone" id="phone" value={currentClient?.phone || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" required />
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Teléfono</label>
+            <input type="tel" name="phone" id="phone" value={currentClient?.phone || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
           </div>
           <div>
-            <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento</label>
-            <input type="date" name="birthDate" id="birthDate" value={currentClient?.birthDate || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" />
+            <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Fecha de Nacimiento</label>
+            <input type="date" name="birthDate" id="birthDate" value={currentClient?.birthDate || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
           </div>
           <div>
-            <label htmlFor="preferences" className="block text-sm font-medium text-gray-700 mb-1">Preferencias y Notas</label>
-            <textarea name="preferences" id="preferences" rows={3} value={currentClient?.preferences || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400" />
+            <label htmlFor="preferences" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Preferencias y Notas</label>
+            <textarea name="preferences" id="preferences" rows={3} value={currentClient?.preferences || ''} onChange={handleFormChange} className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
           </div>
           <div className="mt-6 flex justify-end space-x-4">
-            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">Cancelar</button>
+            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500">Cancelar</button>
             <button type="submit" className="px-4 py-2 bg-pink-500 text-white font-bold rounded-lg shadow hover:bg-pink-600">Guardar Cliente</button>
           </div>
         </form>
@@ -185,13 +185,13 @@ const Clients: React.FC<ClientsProps> = ({ clients, setClients }) => {
             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                 <AlertTriangleIcon className="h-6 w-6 text-red-600" />
             </div>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-4 text-gray-600 dark:text-gray-300">
                 ¿Estás seguro de que quieres eliminar a <strong>{clientToDelete?.name}</strong>?
             </p>
-            <p className="text-sm text-gray-500">Esta acción no se puede deshacer.</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Esta acción no se puede deshacer.</p>
         </div>
         <div className="mt-6 flex justify-center space-x-4">
-            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+            <button type="button" onClick={handleCloseModals} className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-200 dark:hover:bg-gray-500">
                 Cancelar
             </button>
             <button type="button" onClick={handleDeleteConfirm} className="px-4 py-2 bg-red-600 text-white font-bold rounded-lg shadow hover:bg-red-700">

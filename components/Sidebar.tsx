@@ -29,8 +29,8 @@ const NavItem: React.FC<{
       isActive
         ? 'bg-pink-500 text-white shadow-md'
         : isAction 
-        ? 'text-gray-500 hover:bg-red-100 hover:text-red-600'
-        : 'text-gray-600 hover:bg-pink-100 hover:text-pink-700'
+        ? 'text-gray-500 hover:bg-red-100 hover:text-red-600 dark:text-gray-400 dark:hover:bg-red-900/30 dark:hover:text-red-400'
+        : 'text-gray-600 hover:bg-pink-100 hover:text-pink-700 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-pink-400'
     }`}
   >
     {icon}
@@ -67,11 +67,12 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, setCurrentPage, isSideba
       ></div>
 
       <aside className={`fixed inset-y-0 left-0 w-64 bg-white/70 backdrop-blur-lg p-4 shadow-lg flex flex-col justify-between transform transition-transform duration-300 ease-in-out z-30 
-        md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        md:relative md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+        dark:bg-gray-800/70 dark:shadow-gray-950`}>
         <div>
           <div className="flex items-center justify-center my-6">
              <NailPolishIcon className="w-10 h-10 text-pink-600" />
-            <span className="ml-3 text-2xl font-bold text-gray-800">Menú</span>
+            <span className="ml-3 text-2xl font-bold text-gray-800 dark:text-gray-200">Menú</span>
           </div>
           <nav>
             <ul>
@@ -89,7 +90,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, setCurrentPage, isSideba
         </div>
         
         <div>
-          <hr className="my-4 border-pink-100" />
+          <hr className="my-4 border-pink-100 dark:border-gray-700" />
           <ul>
               <NavItem
                   icon={<SettingsIcon className="w-6 h-6" />}
@@ -105,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentPage, setCurrentPage, isSideba
                   isAction={true}
               />
           </ul>
-          <div className="mt-4 text-center text-gray-400 text-xs">
+          <div className="mt-4 text-center text-gray-400 text-xs dark:text-gray-500">
             <p>&copy; {new Date().getFullYear()} Manicurista Pro</p>
             <p>Diseñado con ❤️</p>
           </div>
